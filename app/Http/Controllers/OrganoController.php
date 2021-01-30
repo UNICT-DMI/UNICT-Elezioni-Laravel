@@ -15,9 +15,8 @@ class OrganoController extends Controller
      */
     public function index()
     {
-        $res = [];
-        foreach (Organo::all() as $organo) {
-            $res += $organo->toArray();
+        return Organo::all()->reduce(function ($res, $organo) {
+            $tmp = $organo->toArray();
             if ($organo->schedes != null) {
                 $bianche = DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
@@ -28,16 +27,16 @@ class OrganoController extends Controller
                 $contestate = DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
                     ->sum('schede_contestate');
-                $res += [
-                    'schede' => [
-                        'bianche' => $bianche,
-                        'nulle' => $nulle,
-                        'contestate' => $contestate
-                    ]
-                ];
+
+                $tmp += ['schede' => [
+                    'bianche' => $bianche,
+                    'nulle' => $nulle,
+                    'contestate' => $contestate
+                ]];
             }
-        }
-        return $res;
+            array_push($res, $tmp);
+            return $res;
+        }, array());
     }
 
     /**
