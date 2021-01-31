@@ -18,21 +18,35 @@ class OrganoController extends Controller
         return Organo::all()->reduce(function ($res, $organo) {
             $tmp = $organo->toArray();
             if ($organo->schedes != null) {
-                $bianche = DB::table('schedes')
+                $bianche = ['totali' => DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
-                    ->sum('schede_bianche');
-                $nulle = DB::table('schedes')
+                    ->sum('schede_bianche')];
+                $nulle = ['totali' => DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
-                    ->sum('schede_nulle');
-                $contestate = DB::table('schedes')
+                    ->sum('schede_nulle')];
+                $contestate = ['totali' => DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
-                    ->sum('schede_contestate');
+                    ->sum('schede_contestate')];
 
-                $tmp += ['schede' => [
-                    'bianche' => $bianche,
-                    'nulle' => $nulle,
-                    'contestate' => $contestate
-                ]];
+                $schedeController = new SchedeController();
+                $schedeCollection = $schedeController->index();
+                $sorted = $schedeCollection->sortBy('seggio');
+                foreach ($sorted as $schede) {
+                    $key = 'seggio_n_' . $schede->seggio;
+                    if ($schede->organo_id == $organo->id) {
+                        $bianche[$key] = $schede->schede_bianche;
+                        $nulle[$key] = $schede->schede_nulle;
+                        $contestate[$key] = $schede->schede_contestate;
+                    }
+                }
+
+                $tmp += [
+                    'schede' => [
+                        'bianche' => $bianche,
+                        'nulle' => $nulle,
+                        'contestate' => $contestate
+                    ]
+                ];
             }
             array_push($res, $tmp);
             return $res;
