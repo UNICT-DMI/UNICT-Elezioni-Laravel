@@ -39,25 +39,24 @@ class SchedeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Schede  $schede
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Schede $schede)
     {
-        return Schede::find($id);
+        return $schede;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Schede  $schede
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Schede $schede)
     {
         $data = $request->only('organo_id', 'seggio', 'schede_bianche', 'schede_nulle', 'schede_contestate');
-        $schede = Schede::find($id);
         $schede->organo_id = $data['organo_id'];
         $schede->seggio = $data['seggio'];
         $schede->schede_bianche = $data['schede_bianche'];
@@ -70,12 +69,12 @@ class SchedeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Schede  $schede
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Schede $schede)
     {
-        Schede::find($id)->delete();
+        $schede->delete();
         return $this->index();
     }
 }

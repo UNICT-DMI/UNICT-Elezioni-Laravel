@@ -59,12 +59,11 @@ class OrganoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Organo  $organo
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Organo $organo)
     {
-        $organo = Organo::find($id);
         return $organo;
     }
 
@@ -72,13 +71,12 @@ class OrganoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Organo  $organo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Organo $organo)
     {
         $data = $request->only('biennio', 'nome', 'numero_seggi');
-        $organo = Organo::find($id);
         $organo->biennio = $data['biennio'];
         $organo->nome = $data['nome'];
         $organo->numero_seggi = $data['numero_seggi'];
@@ -89,12 +87,12 @@ class OrganoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Organo  $organo
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Organo $organo)
     {
-        Organo::find($id)->delete();
+        $organo->delete();
         return $this->index();
     }
 }

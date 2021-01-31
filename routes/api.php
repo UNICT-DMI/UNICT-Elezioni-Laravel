@@ -20,6 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/organi', OrganoController::class);
+Route::apiResource('organo', OrganoController::class);
 
-Route::apiResource('/schede', SchedeController::class);
+Route::apiResource('schede', SchedeController::class);
