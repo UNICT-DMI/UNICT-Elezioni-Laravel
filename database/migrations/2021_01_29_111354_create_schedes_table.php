@@ -17,7 +17,7 @@ class CreateSchedesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('organo_id')->constrained();
-            $table->bigInteger('seggio');
+            $table->unsignedBigInteger('seggio');
             $table->unique(['organo_id', 'seggio']);
             $table->integer('schede_bianche');
             $table->integer('schede_nulle');
