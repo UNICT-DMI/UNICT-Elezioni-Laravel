@@ -13,4 +13,9 @@ class Organo extends Model
     {
         return $this->hasMany(Schede::class);
     }
+
+    public function listas()
+    {
+        return $this->hasMany(Lista::class);
+    }
 }
