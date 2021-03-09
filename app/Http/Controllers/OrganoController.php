@@ -48,6 +48,39 @@ class OrganoController extends Controller
                     ]
                 ];
             }
+            if ($organo->listas != null) {
+                $tmp += [
+                    'liste' => []
+                ];
+
+                $listaController = new ListaController();
+                $listaCollection = $listaController->index();
+
+                foreach ($listaCollection as $lista) {
+                    if ($lista->organo_id == $organo->id) {
+                        $votiSeggi = [
+                            'totali' => DB::table('votos')
+                                ->where('lista_id', '=', $lista->id)
+                                ->sum('voti'),
+                        ];
+
+                        foreach ($lista->votos as $voti) {
+                            $votiSeggi += ['seggio_n_' . $voti->seggio => $voti->voti];
+                        }
+
+                        array_push($tmp['liste'], [
+                            'nome' => $lista->nome,
+                            'seggi' => [
+                                'seggi_pieni' => $lista->seggi_pieni,
+                                'resti' => $lista->resti,
+                                'seggi_ai_resti' => $lista->seggi_ai_resti,
+                                'seggi_totali' => $lista->seggi_totali,
+                            ],
+                            'voti' => $votiSeggi
+                        ]);
+                    }
+                }
+            }
             array_push($res, $tmp);
             return $res;
         }, array());
