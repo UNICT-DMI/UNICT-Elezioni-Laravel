@@ -19,7 +19,7 @@ class CreateVotosTable extends Migration
             $table->foreignId('lista_id')->constrained();
             $table->unsignedBigInteger('seggio');
             $table->unique(['lista_id', 'seggio']);
-            $table->integer('voto');
+            $table->integer('voti');
         });
     }
 

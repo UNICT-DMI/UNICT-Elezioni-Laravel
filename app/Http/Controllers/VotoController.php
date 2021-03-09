@@ -25,11 +25,11 @@ class VotoController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('lista_id', 'seggio', 'voto');
+        $data = $request->only('lista_id', 'seggio', 'voti');
         $voto = new Voto();
         $voto->lista_id = $data['lista_id'];
         $voto->seggio = $data['seggio'];
-        $voto->voto = $data['voto'];
+        $voto->voti = $data['voti'];
         $voto->save();
         return $this->index();
     }
@@ -54,10 +54,10 @@ class VotoController extends Controller
      */
     public function update(Request $request, Voto $voto)
     {
-        $data = $request->only('lista_id');
+        $data = $request->only('lista_id', 'seggio', 'voti');
         $voto->lista_id = $data['lista_id'];
         $voto->seggio = $data['seggio'];
-        $voto->voto = $data['voto'];
+        $voto->voto = $data['voti'];
         $voto->save();
         return $this->index();
     }
