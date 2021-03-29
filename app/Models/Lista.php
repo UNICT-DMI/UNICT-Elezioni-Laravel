@@ -18,4 +18,9 @@ class Lista extends Model
     {
         return $this->hasMany(Voto::class);
     }
+
+    public function condidatos()
+    {
+        return $this->hasMany(Candidato::class);
+    }
 }

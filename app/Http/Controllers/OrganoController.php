@@ -17,6 +17,7 @@ class OrganoController extends Controller
     {
         return Organo::all()->reduce(function ($res, $organo) {
             $tmp = $organo->toArray();
+
             if ($organo->schedes != null) {
                 $bianche = ['totali' => DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
@@ -28,9 +29,7 @@ class OrganoController extends Controller
                     ->where('organo_id', '=', $organo->id)
                     ->sum('schede_contestate')];
 
-                $schedeController = new SchedeController();
-                $schedeCollection = $schedeController->index();
-                $sorted = $schedeCollection->sortBy('seggio');
+                $sorted = $organo->schedes->sortBy('seggio');
                 foreach ($sorted as $schede) {
                     $key = 'seggio_n_' . $schede->seggio;
                     if ($schede->organo_id == $organo->id) {
@@ -48,15 +47,14 @@ class OrganoController extends Controller
                     ]
                 ];
             }
+
             if ($organo->listas != null) {
                 $tmp += [
-                    'liste' => []
+                    'liste' => [],
+                    'eletti' => []
                 ];
 
-                $listaController = new ListaController();
-                $listaCollection = $listaController->index();
-
-                foreach ($listaCollection as $lista) {
+                foreach ($organo->listas as $lista) {
                     if ($lista->organo_id == $organo->id) {
                         $votiSeggi = [
                             'totali' => DB::table('votos')
@@ -78,6 +76,17 @@ class OrganoController extends Controller
                             ],
                             'voti' => $votiSeggi
                         ]);
+
+                        $candidati = DB::table('candidatos')->where('lista_id', '=', $lista->id)->get();
+                        $eletti = [];
+                        foreach ($candidati as $candidato) {
+                            $eletti += [
+                                'nome' => $candidato->nome,
+                                'lista' => $lista->nome
+                            ];
+                        }
+
+                        array_push($tmp['eletti'], $eletti);
                     }
                 }
             }
