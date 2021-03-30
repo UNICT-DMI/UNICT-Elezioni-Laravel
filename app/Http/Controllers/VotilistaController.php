@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Voto;
+use App\Models\Votilista;
 use Illuminate\Http\Request;
 
-class VotoController extends Controller
+class VotilistaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class VotoController extends Controller
      */
     public function index()
     {
-        return Voto::all();
+        return Votilista::all();
     }
 
     /**
@@ -26,51 +26,51 @@ class VotoController extends Controller
     public function store(Request $request)
     {
         $data = $request->only('lista_id', 'seggio', 'voti');
-        $voto = new Voto();
-        $voto->lista_id = $data['lista_id'];
-        $voto->seggio = $data['seggio'];
-        $voto->voti = $data['voti'];
-        $voto->save();
+        $votilista = new Votilista();
+        $votilista->lista_id = $data['lista_id'];
+        $votilista->seggio = $data['seggio'];
+        $votilista->voti = $data['voti'];
+        $votilista->save();
         return $this->index();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Voto  $voto
+     * @param  \App\Models\Votilista  $votilista
      * @return \Illuminate\Http\Response
      */
-    public function show(Voto $voto)
+    public function show(Votilista $votilista)
     {
-        return $voto;
+        return $votilista;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Voto  $voto
+     * @param  \App\Models\Votilista  $votilista
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Voto $voto)
+    public function update(Request $request, Votilista $votilista)
     {
         $data = $request->only('lista_id', 'seggio', 'voti');
-        $voto->lista_id = $data['lista_id'];
-        $voto->seggio = $data['seggio'];
-        $voto->voto = $data['voti'];
-        $voto->save();
+        $votilista->lista_id = $data['lista_id'];
+        $votilista->seggio = $data['seggio'];
+        $votilista->voti = $data['voti'];
+        $votilista->save();
         return $this->index();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Voto  $voto
+     * @param  \App\Models\Votilista  $votilista
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Voto $voto)
+    public function destroy(Votilista $votilista)
     {
-        $voto->delete();
+        $votilista->delete();
         return $this->index();
     }
 }

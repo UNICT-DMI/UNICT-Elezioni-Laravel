@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVotosTable extends Migration
+class CreateVotilistasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateVotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('votos', function (Blueprint $table) {
+        Schema::create('votilistas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('lista_id')->constrained();
@@ -30,6 +30,6 @@ class CreateVotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('votos');
+        Schema::dropIfExists('votilistas');
     }
 }

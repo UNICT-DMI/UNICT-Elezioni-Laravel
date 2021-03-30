@@ -14,9 +14,9 @@ class Lista extends Model
         return $this->belongsTo(Organo::class);
     }
 
-    public function votos()
+    public function votilistas()
     {
-        return $this->hasMany(Voto::class);
+        return $this->hasMany(Votilista::class);
     }
 
     public function condidatos()

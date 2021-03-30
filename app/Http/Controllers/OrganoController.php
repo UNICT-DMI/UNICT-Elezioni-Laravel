@@ -57,12 +57,12 @@ class OrganoController extends Controller
                 foreach ($organo->listas as $lista) {
                     if ($lista->organo_id == $organo->id) {
                         $votiSeggi = [
-                            'totali' => DB::table('votos')
+                            'totali' => DB::table('votilistas')
                                 ->where('lista_id', '=', $lista->id)
                                 ->sum('voti'),
                         ];
 
-                        foreach ($lista->votos as $voti) {
+                        foreach ($lista->votilistas as $voti) {
                             $votiSeggi += ['seggio_n_' . $voti->seggio => $voti->voti];
                         }
 
