@@ -4,6 +4,7 @@ use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\ListaController;
 use App\Http\Controllers\OrganoController;
 use App\Http\Controllers\SchedeController;
+use App\Http\Controllers\VoticandidatoController;
 use App\Http\Controllers\VotilistaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +33,5 @@ Route::apiResource('lista', ListaController::class);
 Route::apiResource('votilista', VotilistaController::class);
 
 Route::apiResource('candidato', CandidatoController::class);
+
+Route::apiResource('voticandidato', VoticandidatoController::class);

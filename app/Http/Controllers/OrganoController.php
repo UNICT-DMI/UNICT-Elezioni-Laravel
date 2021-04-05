@@ -51,7 +51,8 @@ class OrganoController extends Controller
             if ($organo->listas != null) {
                 $tmp += [
                     'liste' => [],
-                    'eletti' => []
+                    'eletti' => [],
+                    'non_eletti' => []
                 ];
 
                 foreach ($organo->listas as $lista) {
@@ -59,7 +60,7 @@ class OrganoController extends Controller
                         $votiSeggi = [
                             'totali' => DB::table('votilistas')
                                 ->where('lista_id', '=', $lista->id)
-                                ->sum('voti'),
+                                ->sum('voti')
                         ];
 
                         foreach ($lista->votilistas as $voti) {
@@ -77,16 +78,40 @@ class OrganoController extends Controller
                             'voti' => $votiSeggi
                         ]);
 
-                        $candidati = DB::table('candidatos')->where('lista_id', '=', $lista->id)->get();
-                        $eletti = [];
-                        foreach ($candidati as $candidato) {
-                            $eletti += [
-                                'nome' => $candidato->nome,
-                                'lista' => $lista->nome
-                            ];
+                        $candidatiEletti = DB::table('candidatos')->where('lista_id', '=', $lista->id)->where('eletto', true)->get();
+                        $candidatiNonEletti = DB::table('candidatos')->where('lista_id', '=', $lista->id)->where('eletto', false)->get();
+
+                        foreach ($candidatiEletti as $candidato) {
+                            $votiCandidato = ['totali' => DB::table('voticandidatos')->where('candidato_id', $candidato->id)->sum('voti')];
+
+                            $votiTable = DB::table('voticandidatos')->where('candidato_id', $candidato->id)->get();
+                            foreach ($votiTable as $voti) {
+                                $key = 'seggio_n_' . $voti->seggio;
+                                $votiCandidato += [$key => $voti->voti];
+                            }
+
+                            array_push($tmp['eletti'], [
+                                'nominativo' => $candidato->nome,
+                                'lista' => $lista->nome,
+                                'voti' => $votiCandidato
+                            ]);
                         }
 
-                        array_push($tmp['eletti'], $eletti);
+                        foreach ($candidatiNonEletti as $candidato) {
+                            $votiCandidato = ['totali' => DB::table('voticandidatos')->where('candidato_id', $candidato->id)->sum('voti')];
+
+                            $votiTable = DB::table('voticandidatos')->where('candidato_id', $candidato->id)->get();
+                            foreach ($votiTable as $voti) {
+                                $key = 'seggio_n_' . $voti->seggio;
+                                $votiCandidato += [$key => $voti->voti];
+                            }
+
+                            array_push($tmp['non_eletti'], [
+                                'nominativo' => $candidato->nome,
+                                'lista' => $lista->nome,
+                                'voti' => $votiCandidato
+                            ]);
+                        }
                     }
                 }
             }

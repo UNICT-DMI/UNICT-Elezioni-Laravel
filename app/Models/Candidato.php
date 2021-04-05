@@ -13,4 +13,9 @@ class Candidato extends Model
     {
         return $this->belongsTo(Lista::class);
     }
+
+    public function voticandidatos()
+    {
+        return $this->hasMany(Voticandidato::class);
+    }
 }
