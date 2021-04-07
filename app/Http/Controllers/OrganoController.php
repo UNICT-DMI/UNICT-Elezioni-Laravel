@@ -19,13 +19,13 @@ class OrganoController extends Controller
             $tmp = $organo->toArray();
 
             if ($organo->schedes != null) {
-                $bianche = ['totali' => DB::table('schedes')
+                $bianche = ['totali' => (int) DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
                     ->sum('schede_bianche')];
-                $nulle = ['totali' => DB::table('schedes')
+                $nulle = ['totali' => (int) DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
                     ->sum('schede_nulle')];
-                $contestate = ['totali' => DB::table('schedes')
+                $contestate = ['totali' => (int) DB::table('schedes')
                     ->where('organo_id', '=', $organo->id)
                     ->sum('schede_contestate')];
 
@@ -55,7 +55,7 @@ class OrganoController extends Controller
 
                 foreach ($organo->listas as $lista) {
                     $votiSeggi = [
-                        'totali' => DB::table('votilistas')
+                        'totali' => (int) DB::table('votilistas')
                             ->where('lista_id', '=', $lista->id)
                             ->sum('voti')
                     ];
@@ -79,7 +79,7 @@ class OrganoController extends Controller
                     $candidatiNonEletti = DB::table('candidatos')->where('lista_id', '=', $lista->id)->where('eletto', false)->get();
 
                     foreach ($candidatiEletti as $candidato) {
-                        $votiCandidato = ['totali' => DB::table('voticandidatos')->where('candidato_id', $candidato->id)->sum('voti')];
+                        $votiCandidato = ['totali' => (int) DB::table('voticandidatos')->where('candidato_id', $candidato->id)->sum('voti')];
 
                         $votiTable = DB::table('voticandidatos')->where('candidato_id', $candidato->id)->get();
                         foreach ($votiTable as $voti) {
@@ -95,7 +95,7 @@ class OrganoController extends Controller
                     }
 
                     foreach ($candidatiNonEletti as $candidato) {
-                        $votiCandidato = ['totali' => DB::table('voticandidatos')->where('candidato_id', $candidato->id)->sum('voti')];
+                        $votiCandidato = ['totali' => (int) DB::table('voticandidatos')->where('candidato_id', $candidato->id)->sum('voti')];
 
                         $votiTable = DB::table('voticandidatos')->where('candidato_id', $candidato->id)->get();
                         foreach ($votiTable as $voti) {
@@ -116,7 +116,7 @@ class OrganoController extends Controller
                 $tmp += [
                     'quoziente' => -1,
                     'votanti' => [
-                        'totali' => DB::table('votantis')
+                        'totali' => (int) DB::table('votantis')
                             ->where('organo_id', $organo->id)
                             ->sum('votanti'),
                         'percentuale' => -1
@@ -132,7 +132,7 @@ class OrganoController extends Controller
             if ($organo->elettoris != null) {
                 $tmp += [
                     'elettori' => [
-                        'totali' => DB::table('elettoris')
+                        'totali' => (int) DB::table('elettoris')
                             ->where('organo_id', $organo->id)
                             ->sum('elettori')
                     ]
