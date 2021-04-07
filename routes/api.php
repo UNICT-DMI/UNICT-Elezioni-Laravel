@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\ElettoriController;
 use App\Http\Controllers\ListaController;
 use App\Http\Controllers\OrganoController;
 use App\Http\Controllers\SchedeController;
@@ -38,3 +39,5 @@ Route::apiResource('candidato', CandidatoController::class);
 Route::apiResource('voticandidato', VoticandidatoController::class);
 
 Route::apiResource('votanti', VotantiController::class);
+
+Route::apiResource('elettori', ElettoriController::class);

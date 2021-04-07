@@ -23,4 +23,9 @@ class Organo extends Model
     {
         return $this->hasMany(Votanti::class);
     }
+
+    public function elettoris()
+    {
+        return $this->hasMany(Elettori::class);
+    }
 }

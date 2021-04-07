@@ -129,6 +129,27 @@ class OrganoController extends Controller
                 }
             }
 
+            if ($organo->elettoris != null) {
+                $tmp += [
+                    'elettori' => [
+                        'totali' => DB::table('elettoris')
+                            ->where('organo_id', $organo->id)
+                            ->sum('elettori')
+                    ]
+                ];
+
+                $sorted = $organo->elettoris->sortBy('seggio');
+                foreach ($sorted as $elettori) {
+                    $tmp['elettori'] += ['seggio_n_' . $elettori->seggio => $elettori->elettori];
+                }
+            }
+
+            $bianche = $tmp['schede']['bianche']['totali'];
+            $nulle = $tmp['schede']['nulle']['totali'];
+            $contestate = $tmp['schede']['contestate']['totali'];
+            $tmp['quoziente'] = ($tmp['votanti']['totali'] - ($bianche + $nulle + $contestate)) / $tmp['numero_seggi'];
+            $tmp['votanti']['percentuale'] = round(($tmp['votanti']['totali'] * 100) / $tmp['elettori']['totali'], 2);
+
             array_push($res, $tmp);
             return $res;
         }, array());
