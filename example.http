@@ -1,0 +1,108 @@
+GET http://127.0.0.1:8080/api/organo
+###
+
+POST http://127.0.0.1:8080/api/organo
+Content-Type: application/json
+
+{
+  "biennio": "2020-2021",
+  "nome": "ORGANO",
+  "numero_seggi": 1
+}
+###
+
+GET http://127.0.0.1:8080/api/schede
+###
+
+POST http://127.0.0.1:8080/api/schede
+Content-Type: application/json
+
+{
+  "organo_id": 1,
+  "seggio": 1,
+  "schede_bianche": 1,
+  "schede_nulle": 2,
+  "schede_contestate": 3
+}
+###
+
+GET http://127.0.0.1:8080/api/lista
+###
+
+POST http://127.0.0.1:8080/api/lista
+Content-Type: application/json
+
+{
+  "organo_id": 1,
+  "nome": "LISTA",
+  "seggi_pieni": 2,
+  "resti": 3,
+  "seggi_ai_resti": 4,
+  "seggi_totali": 5
+}
+###
+
+GET http://127.0.0.1:8080/api/votilista
+###
+
+POST http://127.0.0.1:8080/api/votilista
+Content-Type: application/json
+
+{
+  "lista_id": 1,
+  "seggio": 1,
+  "voti": 2
+}
+###
+
+GET http://127.0.0.1:8080/api/candidato
+###
+
+POST http://127.0.0.1:8080/api/candidato
+Content-Type: application/json
+
+{
+  "nome": "CANDIDATO",
+  "nome_lista": "LISTA",
+  "eletto": true
+}
+###
+
+GET http://127.0.0.1:8080/api/voticandidato
+###
+
+POST http://127.0.0.1:8080/api/voticandidato
+Content-Type: application/json
+
+{
+  "candidato_id": 1,
+  "seggio": 1,
+  "voti": 2
+}
+###
+
+GET http://127.0.0.1:8080/api/votanti
+###
+
+POST http://127.0.0.1:8080/api/votanti
+Content-Type: application/json
+
+{
+  "organo_id": 1,
+  "seggio": 2,
+  "votanti": 3
+}
+###
+
+GET http://127.0.0.1:8080/api/elettori
+###
+
+POST http://127.0.0.1:8080/api/elettori
+Content-Type: application/json
+
+{
+  "organo_id": 1,
+  "seggio": 1,
+  "elettori": 2
+}
+###
