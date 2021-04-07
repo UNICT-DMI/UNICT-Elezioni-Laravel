@@ -18,4 +18,9 @@ class Organo extends Model
     {
         return $this->hasMany(Lista::class);
     }
+
+    public function votantis()
+    {
+        return $this->hasMany(Votanti::class);
+    }
 }

@@ -111,7 +111,24 @@ class OrganoController extends Controller
                     }
                 }
             }
-            
+
+            if ($organo->votantis != null) {
+                $tmp += [
+                    'quoziente' => -1,
+                    'votanti' => [
+                        'totali' => DB::table('votantis')
+                            ->where('organo_id', $organo->id)
+                            ->sum('votanti'),
+                        'percentuale' => -1
+                    ]
+                ];
+
+                $sorted = $organo->votantis->sortBy('seggio');
+                foreach ($sorted as $votanti) {
+                    $tmp['votanti'] += ['seggio_n_' . $votanti->seggio => $votanti->votanti];
+                }
+            }
+
             array_push($res, $tmp);
             return $res;
         }, array());
